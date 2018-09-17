@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: sample-webflux-http-netty
+  main:
+    banner-mode: "OFF"
+
+server:
+  port: 8001
+
+controller:
+  timeline: /api/{user}/timeline
