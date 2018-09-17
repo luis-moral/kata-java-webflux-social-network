@@ -26,8 +26,10 @@ public class SocialNetworkFeature {
     @Test public void
     users_can_write_messages_to_a_timeline() {
         RestAssured
-            .when()
-                .post("http://localhost:" + serverPort + "/api/{user}/timeline", BOB)
+            .given()
+                .port(serverPort)
+                .body(BOB_MESSAGE)
+                .post("/api/{user}/timeline", BOB)
             .then()
                 .statusCode(HttpStatus.CREATED.value());
 

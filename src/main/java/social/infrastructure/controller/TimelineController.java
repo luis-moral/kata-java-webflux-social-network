@@ -1,16 +1,29 @@
 package social.infrastructure.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import social.application.TimelineApi;
 
 @RestController
 @RequestMapping(path = "${controller.timeline}")
 public class TimelineController {
 
-    public Mono<ResponseEntity<?>> writeMessage(@RequestBody String message) {
-        return Mono.empty();
+    private final TimelineApi timelineApi;
+
+    @Autowired
+    public TimelineController(TimelineApi timelineApi) {
+        this.timelineApi = timelineApi;
+    }
+
+    @PostMapping
+    public Mono<ResponseEntity<?>> writeMessage(
+        @PathVariable("user") String user,
+        @RequestBody String message
+    ) {
+        return
+            Mono
+                .fromRunnable(() -> timelineApi.postMessage(user, message));
     }
 }
