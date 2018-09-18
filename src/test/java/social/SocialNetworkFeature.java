@@ -24,6 +24,9 @@ public class SocialNetworkFeature {
     @Autowired
     private WebTestClient webClient;
 
+    @Autowired
+    private MessageRepository messageRepository;
+
     @Test public void
     users_can_write_messages_to_a_timeline() {
         webClient
@@ -33,8 +36,6 @@ public class SocialNetworkFeature {
             .exchange()
                 .expectStatus()
                     .isEqualTo(HttpStatus.CREATED);
-
-        MessageRepository messageRepository = new MessageRepository();
         Assertions.assertThat(messageRepository.messagesFor(BOB)).containsExactly(BOB_MESSAGE);
     }
 }

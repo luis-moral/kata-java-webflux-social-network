@@ -11,6 +11,6 @@ public class TimelineApi {
     }
 
     public void postMessageFor(String user, String message) {
-        messageRepository.postMessageFor(user, message);
+        messageRepository.saveMessageFor(user, message);
     }
 }

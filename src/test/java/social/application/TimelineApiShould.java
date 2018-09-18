@@ -22,13 +22,13 @@ public class TimelineApiShould {
         BDDMockito
             .willDoNothing()
             .given(messageRepository)
-            .postMessageFor(BOB, BOB_MESSAGE);
+            .saveMessageFor(BOB, BOB_MESSAGE);
 
         TimelineApi timelineApi = new TimelineApi(messageRepository);
         timelineApi.postMessageFor(BOB, BOB_MESSAGE);
 
         Mockito
             .verify(messageRepository, Mockito.times(1))
-            .postMessageFor(BOB, BOB_MESSAGE);
+            .saveMessageFor(BOB, BOB_MESSAGE);
     }
 }
