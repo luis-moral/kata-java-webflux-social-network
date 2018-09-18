@@ -22,11 +22,11 @@ public class TimelineHandlerShould {
     TimelineApi timelineApi;
 
     @Autowired
-    private WebTestClient webClient;
+    private WebTestClient webTestClient;
 
     @Test public void
     allow_users_to_post_messages() {
-        webClient
+        webTestClient
             .post()
                 .uri("/api/" + BOB + "/timeline")
                 .syncBody(BOB_MESSAGE)
