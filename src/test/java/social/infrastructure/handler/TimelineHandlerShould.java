@@ -36,6 +36,6 @@ public class TimelineHandlerShould {
 
         Mockito
             .verify(timelineApi, Mockito.times(1))
-            .postMessage(BOB, BOB_MESSAGE);
+            .postMessageFor(BOB, BOB_MESSAGE);
     }
 }

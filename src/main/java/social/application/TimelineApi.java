@@ -1,7 +1,16 @@
 package social.application;
 
+import social.infrastructure.repository.MessageRepository;
+
 public class TimelineApi {
-    public void postMessage(String user, String message) {
-        throw new UnsupportedOperationException();
+
+    private final MessageRepository messageRepository;
+
+    public TimelineApi(MessageRepository messageRepository) {
+        this.messageRepository = messageRepository;
+    }
+
+    public void postMessageFor(String user, String message) {
+        messageRepository.postMessageFor(user, message);
     }
 }

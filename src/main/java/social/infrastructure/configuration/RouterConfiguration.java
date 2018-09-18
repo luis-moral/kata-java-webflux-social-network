@@ -20,6 +20,6 @@ public class RouterConfiguration {
     {
         return
             RouterFunctions
-                .route(RequestPredicates.POST(timelinePath), timelineHandler::writeMessage);
+                .route(RequestPredicates.POST(timelinePath), timelineHandler::postMessage);
     }
 }
