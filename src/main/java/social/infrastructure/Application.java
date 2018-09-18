@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(
 scanBasePackages = {
-	"social.infrastructure.controller",
 	"social.infrastructure.configuration"
 })
 public class Application {

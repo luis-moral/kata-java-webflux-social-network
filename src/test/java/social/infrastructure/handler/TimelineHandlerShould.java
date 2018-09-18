@@ -1,4 +1,4 @@
-package social.infrastructure.controller;
+package social.infrastructure.handler;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +13,7 @@ import social.application.TimelineApi;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TimelineControllerShould {
+public class TimelineHandlerShould {
 
     private static final String BOB = "Bob";
     private static final String BOB_MESSAGE = "Hello World!";
