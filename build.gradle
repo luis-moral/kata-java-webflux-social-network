@@ -27,6 +27,5 @@ dependencies {
 	compile('io.projectreactor.ipc:reactor-netty')
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
-	testCompile('io.rest-assured:rest-assured:3.1.1')
 	testCompile('io.projectreactor:reactor-test')
 }
