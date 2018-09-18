@@ -1,17 +1,15 @@
 package social;
 
-import io.restassured.RestAssured;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import social.infrastructure.Application;
-import social.infrastructure.configuration.ApplicationConfiguration;
+import social.infrastructure.repository.MessageRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(

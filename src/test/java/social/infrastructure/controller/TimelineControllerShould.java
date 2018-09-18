@@ -22,13 +22,10 @@ public class TimelineControllerShould {
     TimelineApi timelineApi;
 
     @Autowired
-    TimelineController timelineController;
-
-    @Autowired
     private WebTestClient webClient;
 
     @Test public void
-    allow_users_to_post_messages() throws Exception {
+    allow_users_to_post_messages() {
         webClient
             .post()
                 .uri("/api/" + BOB + "/timeline")

@@ -1,4 +1,4 @@
-package social;
+package social.infrastructure.repository;
 
 import java.util.List;
 
