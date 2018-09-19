@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
-import reactor.util.function.Tuples;
 import social.application.TimelineApi;
 
 public class TimelineHandler {
@@ -21,8 +20,7 @@ public class TimelineHandler {
         return
             request
                 .bodyToMono(String.class)
-                .map(body -> Tuples.of(request.pathVariable(PATH_VARIABLE_USER), body))
-                .doOnNext(tuple -> timelineApi.postMessageFor(tuple.getT1(), tuple.getT2()))
+                .doOnNext(body -> timelineApi.postMessageFor(request.pathVariable(PATH_VARIABLE_USER), body))
                 .then(
                     ServerResponse
                         .status(HttpStatus.CREATED)

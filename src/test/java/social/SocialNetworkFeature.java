@@ -22,20 +22,21 @@ public class SocialNetworkFeature {
     private static final String BOB_MESSAGE = "Hello World!";
 
     @Autowired
-    private WebTestClient webClient;
+    private WebTestClient webTestClient;
 
     @Autowired
     private MessageRepository messageRepository;
 
     @Test public void
     users_can_write_messages_to_a_timeline() {
-        webClient
+        webTestClient
             .post()
                 .uri("/api/" + BOB + "/timeline")
                 .syncBody(BOB_MESSAGE)
             .exchange()
                 .expectStatus()
                     .isEqualTo(HttpStatus.CREATED);
+
         Assertions.assertThat(messageRepository.messagesFor(BOB)).containsExactly(BOB_MESSAGE);
     }
 }
