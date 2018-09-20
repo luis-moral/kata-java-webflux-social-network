@@ -6,7 +6,7 @@ import social.application.TimelineApi;
 import social.infrastructure.repository.MessageRepository;
 
 @Configuration
-public class ApplicationConfiguration {
+public class ServiceConfiguration {
 
     @Bean
     public TimelineApi timelineApi(MessageRepository messageRepository) {
