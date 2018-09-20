@@ -1,7 +1,8 @@
 ## Social Network Kata
 
 ## Exercise
-Implement a console-based social networking application (similar to Twitter) satisfying the scenarios below.
+Implement a REST API based social networking application (similar to Twitter) satisfying the scenarios below.
+
 
 ## Scenarios
 
@@ -77,10 +78,15 @@ IMPORTANT: Focus on writing the best code you can produce. Do not rush. Take as 
 gradlew build
 ```
 
+#### Create self contained JAR
+```
+gradlew bootJar
+```
+
 #### Run
 
 ```
-java -jar ./build/libs/social-network-1.0-SNAPSHOT.jar
+java -jar ./build/libs/webflux-social-network-1.0.0-SNAPSHOT.jar
 ```
 
 #### Quit
@@ -89,8 +95,20 @@ java -jar ./build/libs/social-network-1.0-SNAPSHOT.jar
 CTRL + C
 ```
 
-#### Tests
+#### Run Tests
 
 ```
 gradlew test
+```
+
+### Build Docker Image
+
+```
+docker build -t social-network .
+```
+
+### Run Docker Image
+
+```
+docker run -p 8001:8001 social-network
 ```

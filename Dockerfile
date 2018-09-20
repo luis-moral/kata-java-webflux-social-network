@@ -4,7 +4,7 @@ VOLUME /tmp
 
 EXPOSE 8001/tcp
 
-ARG JAR_FILE=build/libs/social-network-rest-1.0.0-SNAPSHOT.jar
+ARG JAR_FILE=build/libs/webflux-social-network-1.0.0-SNAPSHOT.jar
 
 ADD ${JAR_FILE} app.jar
 
