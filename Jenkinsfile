@@ -1,10 +1,4 @@
 pipeline {
-  agent {
-    node {
-      label 'Build Artifact'
-    }
-
-  }
   stages {
     stage('Clone Repository') {
       steps {
