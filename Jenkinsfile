@@ -1,4 +1,5 @@
 pipeline {
+  agent any
   node {
     stages {
       stage('Clone Repository') {
