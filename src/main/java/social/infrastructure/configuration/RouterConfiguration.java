@@ -7,10 +7,14 @@ import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import social.infrastructure.handler.HealthHandler;
 import social.infrastructure.handler.TimelineHandler;
 
 @Configuration
 public class RouterConfiguration {
+
+    @Value("${health.path}")
+    private String healthPath;
 
     @Value("${timeline.path}")
     private String timelinePath;
@@ -20,6 +24,7 @@ public class RouterConfiguration {
         return
             RouterFunctions
                 .route(RequestPredicates.POST(timelinePath), timelineHandler::postMessage)
-                .andRoute(RequestPredicates.GET(timelinePath), timelineHandler::readUserMessages);
+                .andRoute(RequestPredicates.GET(timelinePath), timelineHandler::readUserMessages)
+                .andRoute(RequestPredicates.POST(timelinePath), timelineHandler::postMessage);
     }
 }
