@@ -20,10 +20,13 @@ public class RouterConfiguration {
     private String timelinePath;
 
     @Bean
-    public RouterFunction<ServerResponse> timelineRouter(TimelineHandler timelineHandler) {
+    public RouterFunction<ServerResponse> routes(
+        HealthHandler healthHandler,
+        TimelineHandler timelineHandler
+    ) {
         return
             RouterFunctions
-                .route(RequestPredicates.POST(timelinePath), timelineHandler::postMessage)
+                .route(RequestPredicates.GET(healthPath), healthHandler::health)
                 .andRoute(RequestPredicates.GET(timelinePath), timelineHandler::readUserMessages)
                 .andRoute(RequestPredicates.POST(timelinePath), timelineHandler::postMessage);
     }
