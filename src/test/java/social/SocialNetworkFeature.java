@@ -21,6 +21,12 @@ public class SocialNetworkFeature {
     private static final String BOB = "Bob";
     private static final String BOB_MESSAGE_TEXT = "Hello World!";
 
+    private static final String CHARLIE = "Charlie";
+    private static final String CHARLIE_MESSAGE_TEXT = "Hello!";
+    private static final String CHARLIE_MESSAGE_TIME_FORMATTED = "(1 minute ago)";
+    private static final String ANOTHER_CHARLIE_MESSAGE = "Nice to meet you";
+    private static final String ANOTHER_CHARLIE_MESSAGE_TIME_FORMATTED = "(2 minutes ago)";
+
     @Autowired
     private WebTestClient webTestClient;
 
@@ -43,5 +49,20 @@ public class SocialNetworkFeature {
         Assertions
             .assertThat(messageRepository.messagesFor(BOB).get(0).getText())
             .isEqualTo(BOB_MESSAGE_TEXT);
+    }
+
+    @Test public void
+    users_can_read_user_messages() {
+        webTestClient
+            .get()
+                .uri("/api/" + CHARLIE + "/timeline")
+            .exchange()
+                .expectStatus()
+                    .isEqualTo(HttpStatus.CREATED)
+                .expectBody(String.class)
+                    .isEqualTo(
+                        CHARLIE_MESSAGE_TEXT + " " + CHARLIE_MESSAGE_TIME_FORMATTED + "\n" +
+                        ANOTHER_CHARLIE_MESSAGE + " " + ANOTHER_CHARLIE_MESSAGE_TIME_FORMATTED
+                    );
     }
 }
