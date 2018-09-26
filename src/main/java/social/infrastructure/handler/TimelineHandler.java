@@ -1,7 +1,5 @@
 package social.infrastructure.handler;
 
-import com.sun.security.ntlm.Server;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -9,8 +7,6 @@ import reactor.core.publisher.Mono;
 import social.application.TimelineApi;
 import social.application.collaborator.Clock;
 import social.infrastructure.collaborator.MessageFormatter;
-
-import java.time.Duration;
 
 public class TimelineHandler {
 
