@@ -44,10 +44,10 @@ public class SocialNetworkFeature {
                     .isEqualTo(HttpStatus.CREATED);
 
         Assertions
-            .assertThat(messageRepository.messagesFor(BOB))
+            .assertThat(messageRepository.findMessagesFor(BOB))
             .hasSize(1);
         Assertions
-            .assertThat(messageRepository.messagesFor(BOB).get(0).getText())
+            .assertThat(messageRepository.findMessagesFor(BOB).get(0).getText())
             .isEqualTo(BOB_MESSAGE_TEXT);
     }
 

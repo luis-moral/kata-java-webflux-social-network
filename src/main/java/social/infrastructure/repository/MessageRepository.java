@@ -15,7 +15,7 @@ public class MessageRepository {
         messageByUserMap = new HashMap<>();
     }
 
-    public List<UserMessage> messagesFor(String user) {
+    public List<UserMessage> findMessagesFor(String user) {
         return messageByUserMap.get(user);
     }
 

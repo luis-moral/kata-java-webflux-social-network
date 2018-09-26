@@ -17,7 +17,7 @@ public class MessageRepositoryShould {
         messageRepository.saveMessageFor(BOB, ANOTHER_BOB_MESSAGE);
 
         Assertions
-            .assertThat(messageRepository.messagesFor(BOB))
+            .assertThat(messageRepository.findMessagesFor(BOB))
             .containsExactly(BOB_MESSAGE, ANOTHER_BOB_MESSAGE);
     }
 }
