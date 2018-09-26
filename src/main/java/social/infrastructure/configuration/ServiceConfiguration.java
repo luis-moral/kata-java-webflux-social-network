@@ -2,6 +2,7 @@ package social.infrastructure.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import social.application.collaborator.Clock;
 import social.application.TimelineApi;
 import social.infrastructure.repository.MessageRepository;
 
@@ -9,7 +10,7 @@ import social.infrastructure.repository.MessageRepository;
 public class ServiceConfiguration {
 
     @Bean
-    public TimelineApi timelineApi(MessageRepository messageRepository) {
-        return new TimelineApi(messageRepository);
+    public TimelineApi timelineApi(MessageRepository messageRepository, Clock clock) {
+        return new TimelineApi(messageRepository, clock);
     }
 }

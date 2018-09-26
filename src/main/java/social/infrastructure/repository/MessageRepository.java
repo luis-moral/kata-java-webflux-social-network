@@ -1,5 +1,7 @@
 package social.infrastructure.repository;
 
+import social.domain.UserMessage;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -7,17 +9,17 @@ import java.util.Map;
 
 public class MessageRepository {
 
-    private final Map<String, List<String>> messageByUserMap;
+    private final Map<String, List<UserMessage>> messageByUserMap;
 
     public MessageRepository() {
         messageByUserMap = new HashMap<>();
     }
 
-    public List<String> messagesFor(String user) {
+    public List<UserMessage> messagesFor(String user) {
         return messageByUserMap.get(user);
     }
 
-    public void saveMessageFor(String user, String message) {
+    public void saveMessageFor(String user, UserMessage message) {
         messageByUserMap
             .computeIfAbsent(user, k -> new LinkedList<>())
             .add(message);
