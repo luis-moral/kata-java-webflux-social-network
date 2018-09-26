@@ -19,7 +19,7 @@ import social.infrastructure.repository.MessageRepository;
 public class SocialNetworkFeature {
 
     private static final String BOB = "Bob";
-    private static final String BOB_MESSAGE = "Hello World!";
+    private static final String BOB_MESSAGE_TEXT = "Hello World!";
 
     @Autowired
     private WebTestClient webTestClient;
@@ -32,11 +32,16 @@ public class SocialNetworkFeature {
         webTestClient
             .post()
                 .uri("/api/" + BOB + "/timeline")
-                .syncBody(BOB_MESSAGE)
+                .syncBody(BOB_MESSAGE_TEXT)
             .exchange()
                 .expectStatus()
                     .isEqualTo(HttpStatus.CREATED);
 
-        Assertions.assertThat(messageRepository.messagesFor(BOB)).containsExactly(BOB_MESSAGE);
+        Assertions
+            .assertThat(messageRepository.messagesFor(BOB))
+            .hasSize(1);
+        Assertions
+            .assertThat(messageRepository.messagesFor(BOB).get(0).getText())
+            .isEqualTo(BOB_MESSAGE_TEXT);
     }
 }
