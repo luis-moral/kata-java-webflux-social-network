@@ -1,19 +1,29 @@
 package social.infrastructure.handler;
 
+import com.sun.security.ntlm.Server;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 import social.application.TimelineApi;
+import social.application.collaborator.Clock;
+import social.infrastructure.collaborator.MessageFormatter;
+
+import java.time.Duration;
 
 public class TimelineHandler {
 
     private static final String PATH_VARIABLE_USER = "user";
 
     private final TimelineApi timelineApi;
+    private final MessageFormatter messageFormatter;
+    private final Clock clock;
 
-    public TimelineHandler(TimelineApi timelineApi) {
+    public TimelineHandler(TimelineApi timelineApi, MessageFormatter messageFormatter, Clock clock) {
         this.timelineApi = timelineApi;
+        this.messageFormatter = messageFormatter;
+        this.clock = clock;
     }
 
     public Mono<ServerResponse> postMessage(ServerRequest request) {
@@ -26,5 +36,18 @@ public class TimelineHandler {
                         .status(HttpStatus.CREATED)
                         .build()
                 );
+    }
+
+    public Mono<ServerResponse> readUserMessages(ServerRequest request) {
+        Mono<String> body =
+            Mono
+                .fromCallable(() -> request.pathVariable(PATH_VARIABLE_USER))
+                .flatMapIterable(user -> timelineApi.getMessagesFor(user))
+                .map(userMessage -> messageFormatter.formatForRead(userMessage, clock.currentTime()))
+                .reduce("", (accumulator, value) -> accumulator + value + "\n");
+        return
+            ServerResponse
+                .status(HttpStatus.OK)
+                .body(body, String.class);
     }
 }

@@ -5,11 +5,17 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import social.domain.UserMessage;
 import social.infrastructure.Application;
 import social.infrastructure.repository.MessageRepository;
+
+import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
@@ -18,13 +24,17 @@ import social.infrastructure.repository.MessageRepository;
 )
 public class SocialNetworkFeature {
 
+    private static final long NOW = System.currentTimeMillis();
+
     private static final String BOB = "Bob";
     private static final String BOB_MESSAGE_TEXT = "Hello World!";
 
     private static final String CHARLIE = "Charlie";
     private static final String CHARLIE_MESSAGE_TEXT = "Hello!";
+    private static final long CHARLIE_MESSAGE_TIME = NOW - TimeUnit.MINUTES.toMillis(1);
     private static final String CHARLIE_MESSAGE_TIME_FORMATTED = "(1 minute ago)";
-    private static final String ANOTHER_CHARLIE_MESSAGE = "Nice to meet you";
+    private static final String ANOTHER_CHARLIE_MESSAGE_TEXT = "Nice to meet you";
+    private static final long ANOTHER_CHARLIE_MESSAGE_TIME = NOW - TimeUnit.MINUTES.toMillis(2);
     private static final String ANOTHER_CHARLIE_MESSAGE_TIME_FORMATTED = "(2 minutes ago)";
 
     @Autowired
@@ -53,16 +63,21 @@ public class SocialNetworkFeature {
 
     @Test public void
     users_can_read_user_messages() {
+        messageRepository.saveMessageFor(CHARLIE, new UserMessage(CHARLIE_MESSAGE_TEXT, CHARLIE_MESSAGE_TIME));
+        messageRepository.saveMessageFor(CHARLIE, new UserMessage(ANOTHER_CHARLIE_MESSAGE_TEXT, ANOTHER_CHARLIE_MESSAGE_TIME));
+
         webTestClient
             .get()
                 .uri("/api/" + CHARLIE + "/timeline")
             .exchange()
                 .expectStatus()
-                    .isEqualTo(HttpStatus.CREATED)
+                    .isEqualTo(HttpStatus.OK)
                 .expectBody(String.class)
-                    .isEqualTo(
-                        CHARLIE_MESSAGE_TEXT + " " + CHARLIE_MESSAGE_TIME_FORMATTED + "\n" +
-                        ANOTHER_CHARLIE_MESSAGE + " " + ANOTHER_CHARLIE_MESSAGE_TIME_FORMATTED
+                    .consumeWith(responseBody ->
+                        Assertions.assertThat(responseBody).isEqualTo(
+                            CHARLIE_MESSAGE_TEXT + " " + CHARLIE_MESSAGE_TIME_FORMATTED + "\n" +
+                            ANOTHER_CHARLIE_MESSAGE_TEXT + " " + ANOTHER_CHARLIE_MESSAGE_TIME_FORMATTED
+                        )
                     );
     }
 }

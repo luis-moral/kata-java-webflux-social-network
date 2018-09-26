@@ -16,10 +16,10 @@ public class RouterConfiguration {
     private String timelinePath;
 
     @Bean
-    public RouterFunction<ServerResponse> timelineRouter(TimelineHandler timelineHandler)
-    {
+    public RouterFunction<ServerResponse> timelineRouter(TimelineHandler timelineHandler) {
         return
             RouterFunctions
-                .route(RequestPredicates.POST(timelinePath), timelineHandler::postMessage);
+                .route(RequestPredicates.POST(timelinePath), timelineHandler::postMessage)
+                .andRoute(RequestPredicates.GET(timelinePath), timelineHandler::readUserMessages);
     }
 }

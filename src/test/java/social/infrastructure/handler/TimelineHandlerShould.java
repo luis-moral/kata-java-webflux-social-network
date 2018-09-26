@@ -2,6 +2,7 @@ package social.infrastructure.handler;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.BDDMockito;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,6 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import social.application.TimelineApi;
+import social.application.collaborator.Clock;
+import social.domain.UserMessage;
+import social.infrastructure.collaborator.MessageFormatter;
+
+import java.util.Arrays;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -17,9 +23,14 @@ public class TimelineHandlerShould {
 
     private static final String BOB = "Bob";
     private static final String BOB_MESSAGE_TEXT = "Hello World!";
-    private static final String BOB_MESSAGE_TIME_FORMATTED = "(1 minute ago)";
-    private static final String ANOTHER_BOB_MESSAGE = "Nice to meet you";
-    private static final String ANOTHER_BOB_MESSAGE_TIME_FORMATTED = "(2 minutes ago)";
+    private static final long BOB_MESSAGE_TIME = System.currentTimeMillis();
+    private static final UserMessage BOB_MESSAGE = new UserMessage(BOB_MESSAGE_TEXT, BOB_MESSAGE_TIME);
+
+    @MockBean
+    Clock clock;
+
+    @MockBean
+    MessageFormatter messageFormatter;
 
     @MockBean
     TimelineApi timelineApi;
@@ -44,16 +55,29 @@ public class TimelineHandlerShould {
 
     @Test public void
     allow_users_to_read_other_users_messages_timeline() {
+        long now = System.currentTimeMillis();
+
+        BDDMockito
+            .given(clock.currentTime())
+            .willReturn(now);
+
+        BDDMockito
+            .given(timelineApi.getMessagesFor(BOB))
+            .willReturn(Arrays.asList(BOB_MESSAGE));
+
+        BDDMockito
+            .given(messageFormatter.formatForRead(BOB_MESSAGE, now))
+            .willReturn(BOB_MESSAGE_TEXT);
+
         webTestClient
             .get()
                 .uri("/api/" + BOB + "/timeline")
             .exchange()
                 .expectStatus()
-                    .isEqualTo(HttpStatus.CREATED)
-                .expectBody(String.class)
-                    .isEqualTo(
-                        BOB_MESSAGE_TEXT + " " + BOB_MESSAGE_TIME_FORMATTED + "\n" +
-                        ANOTHER_BOB_MESSAGE + " " + ANOTHER_BOB_MESSAGE_TIME_FORMATTED
-                    );
+                    .isEqualTo(HttpStatus.OK);
+
+        Mockito
+            .verify(messageFormatter, Mockito.times(1))
+            .formatForRead(BOB_MESSAGE, now);
     }
 }
