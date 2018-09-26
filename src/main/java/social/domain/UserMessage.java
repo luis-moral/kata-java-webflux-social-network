@@ -15,6 +15,10 @@ public class UserMessage {
         return text;
     }
 
+    public long getTime() {
+        return time;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
