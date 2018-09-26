@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git(branch: 'master', url: 'https://github.com/luis-moral/kata-java-webflux-social-network.git', poll: true)
+                git(branch: 'master', url: 'https://github.com/luis-moral/kata-java-webflux-social-network.git', poll: false)
             }
         }
         stage('Build Jar') {
