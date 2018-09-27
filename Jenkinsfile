@@ -6,8 +6,6 @@ pipeline {
         def FARGATE_SERVICE = "social-network"
         def FARGATE_TASK_DEFINITION= "luis-social-network"
         def FARGATE_DESIRED_INSTANCES = "2"
-        def AWS_SUBNET = "subnet-cb3c8082"
-        def AWS_SECURITY_GROUP = "sg-006cdd5f76d30c589"
     }
 
     stages {
@@ -43,7 +41,11 @@ pipeline {
                     def services = readJSON file: 'services.json'
 
                     if (!services.serviceArns) {
-                        sh "aws ecs create-service --cluster ${FARGATE_CLUSTER} --service-name ${FARGATE_SERVICE} --task-definition ${FARGATE_TASK_DEFINITION} --desired-count ${FARGATE_DESIRED_INSTANCES} --launch-type 'FARGATE' --network-configuration \"awsvpcConfiguration={subnets=[${AWS_SUBNET}],securityGroups=[${AWS_SECURITY_GROUP}],assignPublicIp=ENABLED}\" --cli-input-json file://ecs-service.json"
+                        /*
+                            Service should exits in service discovery, if not you can create it with the next command and update the registryArn with the new value
+                            aws servicediscovery create-service --name luis-social-network-service --dns-config "NamespaceId="ns-2exahphlyeclozmh",DnsRecords=[{Type="A",TTL="60"}]" --health-check-custom-config FailureThreshold=1
+                         */
+                        sh "aws ecs create-service --cluster ${FARGATE_CLUSTER} --service-name ${FARGATE_SERVICE} --task-definition ${FARGATE_TASK_DEFINITION} --desired-count ${FARGATE_DESIRED_INSTANCES} --launch-type FARGATE --cli-input-json file://ecs-service.json"
                     }
                 }
             }
