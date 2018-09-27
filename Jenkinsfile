@@ -43,7 +43,7 @@ pipeline {
                     def services = readJSON file: 'services.json'
 
                     if (!services.serviceArns) {
-                        sh "aws ecs create-service --cluster ${FARGATE_CLUSTER} --service-name ${FARGATE_SERVICE} --task-definition ${FARGATE_TASK_DEFINITION} --desired-count ${FARGATE_DESIRED_INSTANCES} --launch-type 'FARGATE' --network-configuration \"awsvpcConfiguration={subnets=[${AWS_SUBNET}],securityGroups=[${AWS_SECURITY_GROUP}],assignPublicIp=ENABLED}\""
+                        sh "aws ecs create-service --cluster ${FARGATE_CLUSTER} --service-name ${FARGATE_SERVICE} --task-definition ${FARGATE_TASK_DEFINITION} --desired-count ${FARGATE_DESIRED_INSTANCES} --launch-type 'FARGATE' --network-configuration \"awsvpcConfiguration={subnets=[${AWS_SUBNET}],securityGroups=[${AWS_SECURITY_GROUP}],assignPublicIp=ENABLED}\" --cli-input-json file://ecs-service.json"
                     }
                 }
             }

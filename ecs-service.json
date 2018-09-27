@@ -1,0 +1,8 @@
+{
+  "loadBalancers": [{
+      "targetGroupArn": "arn:aws:elasticloadbalancing:eu-west-1:300563897675:targetgroup/luis-social-network-target-group/19eda7db213a3fcc",
+      "containerName": "luis-social-network-container",
+      "containerPort": 80
+    }
+  ]
+}
