@@ -1,8 +1,23 @@
 {
   "loadBalancers": [{
-      "targetGroupArn": "arn:aws:elasticloadbalancing:eu-west-1:300563897675:targetgroup/luis-social-network-target-group/19eda7db213a3fcc",
+      "targetGroupArn": "arn:aws:elasticloadbalancing:eu-west-1:300563897675:targetgroup/luis-social-network-targetgroup/23fba6ce9b2c7451",
       "containerName": "luis-social-network-container",
-      "containerPort": 80
+      "containerPort": 8080
     }
-  ]
+  ],
+  "serviceRegistries": [{
+      "registryArn": "arn:aws:servicediscovery:eu-west-1:300563897675:service/srv-p5igbnshuumclo4t"
+    }
+  ],
+  "networkConfiguration": {
+    "awsvpcConfiguration": {
+      "subnets": [
+        "subnet-cb3c8082"
+      ],
+      "securityGroups": [
+        "sg-086cd65f160c0c091"
+      ],
+      "assignPublicIp": "ENABLED"
+    }
+  }
 }
