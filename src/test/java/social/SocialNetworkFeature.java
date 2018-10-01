@@ -70,8 +70,8 @@ public class SocialNetworkFeature {
                 .expectStatus()
                     .isEqualTo(HttpStatus.OK)
                 .expectBody(String.class)
-                    .consumeWith(responseBody ->
-                        Assertions.assertThat(responseBody).isEqualTo(
+                    .consumeWith(response ->
+                        Assertions.assertThat(response.getResponseBody()).isEqualTo(
                             CHARLIE_MESSAGE_TEXT + " " + CHARLIE_MESSAGE_TIME_FORMATTED + "\n" +
                             ANOTHER_CHARLIE_MESSAGE_TEXT + " " + ANOTHER_CHARLIE_MESSAGE_TIME_FORMATTED
                         )

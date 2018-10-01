@@ -8,6 +8,8 @@ import social.application.TimelineApi;
 import social.application.collaborator.Clock;
 import social.infrastructure.collaborator.MessageFormatter;
 
+import java.util.stream.Collectors;
+
 public class TimelineHandler {
 
     private static final String PATH_VARIABLE_USER = "user";
@@ -40,7 +42,8 @@ public class TimelineHandler {
                 .fromCallable(() -> request.pathVariable(PATH_VARIABLE_USER))
                 .flatMapIterable(user -> timelineApi.getMessagesFor(user))
                 .map(userMessage -> messageFormatter.formatForRead(userMessage, clock.currentTime()))
-                .reduce("", (accumulator, value) -> accumulator + value + "\n");
+                .collect(Collectors.joining("\n"));
+
         return
             ServerResponse
                 .status(HttpStatus.OK)
