@@ -47,7 +47,7 @@
             </collectionProp>
           </Arguments>
           <hashTree/>
-          <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Pro" enabled="true">
+          <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Pro" enabled="false">
             <collectionProp name="Arguments.arguments">
               <elementProp name="server.host" elementType="Argument">
                 <stringProp name="Argument.name">server.host</stringProp>

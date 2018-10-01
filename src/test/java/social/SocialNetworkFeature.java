@@ -77,4 +77,26 @@ public class SocialNetworkFeature {
                         )
                     );
     }
+
+    @Test public void
+    users_can_follow_other_users() {
+        postMessage(BOB, BOB_MESSAGE_TEXT);
+
+        webTestClient
+            .post()
+                .uri("/api/" + CHARLIE + "/follow")
+                .syncBody(BOB)
+            .exchange()
+                .expectStatus()
+                    .isEqualTo(HttpStatus.CREATED);
+    }
+
+    public WebTestClient.ResponseSpec postMessage(String user, String text) {
+        return
+            webTestClient
+                .post()
+                    .uri("/api/" + user + "/timeline")
+                    .syncBody(text)
+                .exchange();
+    }
 }
