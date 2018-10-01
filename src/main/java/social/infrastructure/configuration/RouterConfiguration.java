@@ -21,12 +21,22 @@ public class RouterConfiguration {
 
     @Bean
     public RouterFunction<ServerResponse> routes(
-        TimelineHandler timelineHandler,
-        HealthHandler healthHandler
+        HealthHandler healthHandler,
+        TimelineHandler timelineHandler
     ) {
         return
             RouterFunctions
-                .route(RequestPredicates.GET(healthPath), healthHandler::health)
-                .andRoute(RequestPredicates.POST(timelinePath), timelineHandler::postMessage);
+                .route(
+                    RequestPredicates.GET(healthPath),
+                    healthHandler::health
+                )
+                .andRoute(
+                    RequestPredicates.GET(timelinePath),
+                    timelineHandler::readUserMessages
+                )
+                .andRoute(
+                    RequestPredicates.POST(timelinePath),
+                    timelineHandler::postMessage
+                );
     }
 }

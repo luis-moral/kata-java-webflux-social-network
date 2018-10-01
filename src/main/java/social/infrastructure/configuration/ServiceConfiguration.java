@@ -2,8 +2,8 @@ package social.infrastructure.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import social.application.collaborator.Clock;
 import social.application.TimelineApi;
+import social.application.collaborator.Clock;
 import social.infrastructure.repository.MessageRepository;
 
 @Configuration
