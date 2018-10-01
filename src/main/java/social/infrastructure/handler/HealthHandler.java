@@ -12,7 +12,7 @@ public class HealthHandler {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public Mono<ServerResponse> health(ServerRequest request) {
-        logger.info("Health check");
+        logger.info("Health check called");
 
         return
             ServerResponse
