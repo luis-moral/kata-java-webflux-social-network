@@ -28,7 +28,10 @@ public class TimelineHandler {
         return
             request
                 .bodyToMono(String.class)
-                .doOnNext(body -> timelineApi.postMessageFor(request.pathVariable(PATH_VARIABLE_USER), body))
+                .doOnNext(body ->
+                    timelineApi
+                        .postMessageFor(request.pathVariable(PATH_VARIABLE_USER), body)
+                )
                 .then(
                     ServerResponse
                         .status(HttpStatus.CREATED)

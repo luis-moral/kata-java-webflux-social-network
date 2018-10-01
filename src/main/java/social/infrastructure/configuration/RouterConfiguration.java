@@ -26,8 +26,17 @@ public class RouterConfiguration {
     ) {
         return
             RouterFunctions
-                .route(RequestPredicates.GET(healthPath), healthHandler::health)
-                .andRoute(RequestPredicates.GET(timelinePath), timelineHandler::readUserMessages)
-                .andRoute(RequestPredicates.POST(timelinePath), timelineHandler::postMessage);
+                .route(
+                    RequestPredicates.GET(healthPath),
+                    healthHandler::health
+                )
+                .andRoute(
+                    RequestPredicates.GET(timelinePath),
+                    timelineHandler::readUserMessages
+                )
+                .andRoute(
+                    RequestPredicates.POST(timelinePath),
+                    timelineHandler::postMessage
+                );
     }
 }
