@@ -10,6 +10,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import social.application.collaborator.Clock;
 import social.domain.UserMessage;
 import social.infrastructure.repository.MessageRepository;
+import social.infrastructure.repository.UserRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TimelineApiShould {
@@ -17,9 +18,12 @@ public class TimelineApiShould {
     private static final long MESSAGE_TIME = System.currentTimeMillis();
     private static final String BOB = "Bob";
     private static final String BOB_MESSAGE_TEXT = "Hello World!";
+    private static final String CHARLIE = "Charlie";
 
     private static final UserMessage BOB_MESSAGE = new UserMessage(BOB_MESSAGE_TEXT, MESSAGE_TIME);
 
+    @Mock
+    UserRepository userRepository;
     @Mock
     MessageRepository messageRepository;
     @Mock
@@ -29,7 +33,7 @@ public class TimelineApiShould {
 
     @Before
     public void setUp() {
-        timelineApi = new TimelineApi(messageRepository, clock);
+        timelineApi = new TimelineApi(userRepository, messageRepository, clock);
     }
 
     @Test public void
@@ -57,5 +61,14 @@ public class TimelineApiShould {
         Mockito
             .verify(messageRepository, Mockito.times(1))
             .findMessagesFor(BOB);
+    }
+
+    @Test public void
+    allow_users_to_follow_other_users() {
+        timelineApi.followUser(BOB, CHARLIE);
+
+        Mockito
+            .verify(userRepository, Mockito.times(1))
+            .saveUserToFollow(BOB, CHARLIE);
     }
 }

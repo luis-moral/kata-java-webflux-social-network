@@ -3,15 +3,18 @@ package social.application;
 import social.application.collaborator.Clock;
 import social.domain.UserMessage;
 import social.infrastructure.repository.MessageRepository;
+import social.infrastructure.repository.UserRepository;
 
 import java.util.List;
 
 public class TimelineApi {
 
+    private final UserRepository userRepository;
     private final MessageRepository messageRepository;
     private final Clock clock;
 
-    public TimelineApi(MessageRepository messageRepository, Clock clock) {
+    public TimelineApi(UserRepository userRepository, MessageRepository messageRepository, Clock clock) {
+        this.userRepository = userRepository;
         this.messageRepository = messageRepository;
         this.clock = clock;
     }
@@ -22,5 +25,9 @@ public class TimelineApi {
 
     public List<UserMessage> getMessagesFor(String user) {
         return messageRepository.findMessagesFor(user);
+    }
+
+    public void followUser(String user, String userToFollow) {
+        userRepository.saveUserToFollow(user, userToFollow);
     }
 }

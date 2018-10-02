@@ -52,4 +52,16 @@ public class TimelineHandler {
                 .status(HttpStatus.OK)
                 .body(body, String.class);
     }
+
+    public Mono<ServerResponse> followUser(ServerRequest request) {
+        return
+            request
+                .bodyToMono(String.class)
+                .doOnNext(body -> timelineApi.followUser(request.pathVariable(PATH_VARIABLE_USER), body))
+                .then(
+                    ServerResponse
+                        .status(HttpStatus.CREATED)
+                        .build()
+                );
+    }
 }

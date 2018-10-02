@@ -1,8 +1,10 @@
 package social.infrastructure.handler;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +27,7 @@ public class TimelineHandlerShould {
     private static final String BOB_MESSAGE_TEXT = "Hello World!";
     private static final long BOB_MESSAGE_TIME = System.currentTimeMillis();
     private static final UserMessage BOB_MESSAGE = new UserMessage(BOB_MESSAGE_TEXT, BOB_MESSAGE_TIME);
+    private static final String CHARLIE = "Charlie";
 
     @MockBean
     Clock clock;
@@ -79,5 +82,20 @@ public class TimelineHandlerShould {
         Mockito
             .verify(messageFormatter, Mockito.times(1))
             .formatForRead(BOB_MESSAGE, now);
+    }
+
+    @Test public void
+    allow_users_to_follow_other_users() {
+        webTestClient
+            .post()
+                .uri("/api/" + BOB + "/follow")
+                .syncBody(CHARLIE)
+            .exchange()
+                .expectStatus()
+                    .isEqualTo(HttpStatus.CREATED);
+
+        Mockito
+            .verify(timelineApi, Mockito.times(1))
+            .followUser(BOB, CHARLIE);
     }
 }

@@ -19,6 +19,9 @@ public class RouterConfiguration {
     @Value("${timeline.path}")
     private String timelinePath;
 
+    @Value("${follow.path}")
+    private String followPath;
+
     @Bean
     public RouterFunction<ServerResponse> routes(
         HealthHandler healthHandler,
@@ -37,6 +40,10 @@ public class RouterConfiguration {
                 .andRoute(
                     RequestPredicates.POST(timelinePath),
                     timelineHandler::postMessage
+                )
+                .andRoute(
+                    RequestPredicates.POST(followPath),
+                    timelineHandler::followUser
                 );
     }
 }
