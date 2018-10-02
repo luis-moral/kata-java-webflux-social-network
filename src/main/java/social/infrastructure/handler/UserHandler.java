@@ -4,22 +4,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
-import social.application.TimelineApi;
+import social.application.UserApi;
 import social.application.collaborator.Clock;
 import social.infrastructure.collaborator.MessageFormatter;
 
 import java.util.stream.Collectors;
 
-public class TimelineHandler {
+public class UserHandler {
 
     private static final String PATH_VARIABLE_USER = "user";
 
-    private final TimelineApi timelineApi;
+    private final UserApi userApi;
     private final MessageFormatter messageFormatter;
     private final Clock clock;
 
-    public TimelineHandler(TimelineApi timelineApi, MessageFormatter messageFormatter, Clock clock) {
-        this.timelineApi = timelineApi;
+    public UserHandler(UserApi userApi, MessageFormatter messageFormatter, Clock clock) {
+        this.userApi = userApi;
         this.messageFormatter = messageFormatter;
         this.clock = clock;
     }
@@ -29,7 +29,7 @@ public class TimelineHandler {
             request
                 .bodyToMono(String.class)
                 .doOnNext(body ->
-                    timelineApi
+                    userApi
                         .postMessageFor(request.pathVariable(PATH_VARIABLE_USER), body)
                 )
                 .then(
@@ -43,7 +43,7 @@ public class TimelineHandler {
         Mono<String> body =
             Mono
                 .fromCallable(() -> request.pathVariable(PATH_VARIABLE_USER))
-                .flatMapIterable(user -> timelineApi.getMessagesFor(user))
+                .flatMapIterable(user -> userApi.getMessagesFor(user))
                 .map(userMessage -> messageFormatter.formatForRead(userMessage, clock.currentTime()))
                 .collect(Collectors.joining("\n"));
 
@@ -57,7 +57,7 @@ public class TimelineHandler {
         return
             request
                 .bodyToMono(String.class)
-                .doOnNext(body -> timelineApi.followUser(request.pathVariable(PATH_VARIABLE_USER), body))
+                .doOnNext(body -> userApi.followUser(request.pathVariable(PATH_VARIABLE_USER), body))
                 .then(
                     ServerResponse
                         .status(HttpStatus.CREATED)

@@ -11,8 +11,8 @@ server:
 health:
   path: /health
 
-timeline:
-  path: /api/{user}/timeline
-
-follow:
-  path: /api/{user}/follow
+user:
+  timeline:
+    path: /api/{user}/timeline
+  follow:
+    path: /api/{user}/follow

@@ -7,13 +7,13 @@ import social.infrastructure.repository.UserRepository;
 
 import java.util.List;
 
-public class TimelineApi {
+public class UserApi {
 
     private final UserRepository userRepository;
     private final MessageRepository messageRepository;
     private final Clock clock;
 
-    public TimelineApi(UserRepository userRepository, MessageRepository messageRepository, Clock clock) {
+    public UserApi(UserRepository userRepository, MessageRepository messageRepository, Clock clock) {
         this.userRepository = userRepository;
         this.messageRepository = messageRepository;
         this.clock = clock;
