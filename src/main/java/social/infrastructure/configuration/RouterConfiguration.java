@@ -8,7 +8,7 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import social.infrastructure.handler.HealthHandler;
-import social.infrastructure.handler.TimelineHandler;
+import social.infrastructure.handler.UserHandler;
 
 @Configuration
 public class RouterConfiguration {
@@ -16,13 +16,16 @@ public class RouterConfiguration {
     @Value("${health.path}")
     private String healthPath;
 
-    @Value("${timeline.path}")
-    private String timelinePath;
+    @Value("${user.timeline.path}")
+    private String userTimelinePath;
+
+    @Value("${user.follow.path}")
+    private String userFollowPath;
 
     @Bean
     public RouterFunction<ServerResponse> routes(
         HealthHandler healthHandler,
-        TimelineHandler timelineHandler
+        UserHandler userHandler
     ) {
         return
             RouterFunctions
@@ -31,12 +34,16 @@ public class RouterConfiguration {
                     healthHandler::health
                 )
                 .andRoute(
-                    RequestPredicates.GET(timelinePath),
-                    timelineHandler::readUserMessages
+                    RequestPredicates.GET(userTimelinePath),
+                    userHandler::readUserMessages
                 )
                 .andRoute(
-                    RequestPredicates.POST(timelinePath),
-                    timelineHandler::postMessage
+                    RequestPredicates.POST(userTimelinePath),
+                    userHandler::postMessage
+                )
+                .andRoute(
+                    RequestPredicates.POST(userFollowPath),
+                    userHandler::followUser
                 );
     }
 }

@@ -21,7 +21,7 @@ public class MessageRepository {
 
     public void saveMessageFor(String user, UserMessage message) {
         messageByUserMap
-            .computeIfAbsent(user, k -> new LinkedList<>())
+            .computeIfAbsent(user, key -> new LinkedList<>())
             .add(message);
     }
 }

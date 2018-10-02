@@ -10,26 +10,30 @@ import org.mockito.junit.MockitoJUnitRunner;
 import social.application.collaborator.Clock;
 import social.domain.UserMessage;
 import social.infrastructure.repository.MessageRepository;
+import social.infrastructure.repository.UserRepository;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TimelineApiShould {
+public class UserApiShould {
 
     private static final long MESSAGE_TIME = System.currentTimeMillis();
     private static final String BOB = "Bob";
     private static final String BOB_MESSAGE_TEXT = "Hello World!";
+    private static final String CHARLIE = "Charlie";
 
     private static final UserMessage BOB_MESSAGE = new UserMessage(BOB_MESSAGE_TEXT, MESSAGE_TIME);
 
+    @Mock
+    UserRepository userRepository;
     @Mock
     MessageRepository messageRepository;
     @Mock
     Clock clock;
 
-    private TimelineApi timelineApi;
+    private UserApi userApi;
 
     @Before
     public void setUp() {
-        timelineApi = new TimelineApi(messageRepository, clock);
+        userApi = new UserApi(userRepository, messageRepository, clock);
     }
 
     @Test public void
@@ -43,7 +47,7 @@ public class TimelineApiShould {
             .given(clock.currentTime())
             .willReturn(MESSAGE_TIME);
 
-        timelineApi.postMessageFor(BOB, BOB_MESSAGE_TEXT);
+        userApi.postMessageFor(BOB, BOB_MESSAGE_TEXT);
 
         Mockito
             .verify(messageRepository, Mockito.times(1))
@@ -52,10 +56,19 @@ public class TimelineApiShould {
 
     @Test public void
     allow_users_to_read_other_users_messages_timeline() {
-        timelineApi.getMessagesFor(BOB);
+        userApi.getMessagesFor(BOB);
 
         Mockito
             .verify(messageRepository, Mockito.times(1))
             .findMessagesFor(BOB);
+    }
+
+    @Test public void
+    allow_users_to_follow_other_users() {
+        userApi.followUser(BOB, CHARLIE);
+
+        Mockito
+            .verify(userRepository, Mockito.times(1))
+            .saveUserToFollow(BOB, CHARLIE);
     }
 }
