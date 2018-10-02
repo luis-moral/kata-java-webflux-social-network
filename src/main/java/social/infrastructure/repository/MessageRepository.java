@@ -24,4 +24,8 @@ public class MessageRepository {
             .computeIfAbsent(user, key -> new LinkedList<>())
             .add(message);
     }
+
+    public void reset() {
+        messageByUserMap.clear();
+    }
 }

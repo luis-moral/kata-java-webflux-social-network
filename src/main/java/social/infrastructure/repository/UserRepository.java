@@ -22,4 +22,8 @@ public class UserRepository {
     public List<String> usersFollowedBy(String user) {
         return usersFollowedMap.get(user);
     }
+
+    public void reset() {
+        usersFollowedMap.clear();
+    }
 }
