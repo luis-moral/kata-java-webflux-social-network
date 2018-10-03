@@ -73,8 +73,8 @@ public class SocialNetworkFeature {
 
     @Test public void
     users_can_read_user_messages() {
-        messageRepository.saveMessageFor(CHARLIE, new UserMessage(CHARLIE_MESSAGE_TEXT, CHARLIE_MESSAGE_TIME));
-        messageRepository.saveMessageFor(CHARLIE, new UserMessage(ANOTHER_CHARLIE_MESSAGE_TEXT, ANOTHER_CHARLIE_MESSAGE_TIME));
+        messageRepository.saveMessageFor(CHARLIE, new UserMessage(CHARLIE, CHARLIE_MESSAGE_TEXT, CHARLIE_MESSAGE_TIME));
+        messageRepository.saveMessageFor(CHARLIE, new UserMessage(CHARLIE, ANOTHER_CHARLIE_MESSAGE_TEXT, ANOTHER_CHARLIE_MESSAGE_TIME));
 
         webTestClient
             .get()
@@ -109,10 +109,10 @@ public class SocialNetworkFeature {
     }
 
     @Test public void
-    users_can_read_other_users_walls() {
-        messageRepository.saveMessageFor(CHARLIE, new UserMessage(CHARLIE_MESSAGE_TEXT, CHARLIE_MESSAGE_TIME));
-        messageRepository.saveMessageFor(BOB, new UserMessage(BOB_MESSAGE_TEXT, BOB_MESSAGE_TIME));
-        messageRepository.saveMessageFor(CHARLIE, new UserMessage(ANOTHER_CHARLIE_MESSAGE_TEXT, ANOTHER_CHARLIE_MESSAGE_TIME));
+    users_can_read_users_walls() {
+        messageRepository.saveMessageFor(CHARLIE, new UserMessage(CHARLIE, CHARLIE_MESSAGE_TEXT, CHARLIE_MESSAGE_TIME));
+        messageRepository.saveMessageFor(BOB, new UserMessage(BOB, BOB_MESSAGE_TEXT, BOB_MESSAGE_TIME));
+        messageRepository.saveMessageFor(CHARLIE, new UserMessage(CHARLIE, ANOTHER_CHARLIE_MESSAGE_TEXT, ANOTHER_CHARLIE_MESSAGE_TIME));
 
         userRepository.saveUserToFollow(CHARLIE, BOB);
 

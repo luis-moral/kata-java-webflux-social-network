@@ -3,12 +3,18 @@ package social.domain;
 import java.util.Objects;
 
 public class UserMessage {
+    private final String user;
     private final String text;
     private final long time;
 
-    public UserMessage(String text, long time) {
+    public UserMessage(String user, String text, long time) {
+        this.user = user;
         this.text = text;
         this.time = time;
+    }
+
+    public String getUser() {
+        return user;
     }
 
     public String getText() {

@@ -24,7 +24,7 @@ public class UserHandlerShould {
     private static final String BOB = "Bob";
     private static final String BOB_MESSAGE_TEXT = "Hello World!";
     private static final long BOB_MESSAGE_TIME = System.currentTimeMillis();
-    private static final UserMessage BOB_MESSAGE = new UserMessage(BOB_MESSAGE_TEXT, BOB_MESSAGE_TIME);
+    private static final UserMessage BOB_MESSAGE = new UserMessage(BOB, BOB_MESSAGE_TEXT, BOB_MESSAGE_TIME);
     private static final String CHARLIE = "Charlie";
 
     @MockBean
@@ -63,7 +63,7 @@ public class UserHandlerShould {
             .willReturn(now);
 
         BDDMockito
-            .given(userApi.getMessagesFor(BOB))
+            .given(userApi.messagesFor(BOB))
             .willReturn(Arrays.asList(BOB_MESSAGE));
 
         BDDMockito
@@ -80,6 +80,10 @@ public class UserHandlerShould {
         Mockito
             .verify(messageFormatter, Mockito.times(1))
             .formatForRead(BOB_MESSAGE, now);
+
+        Mockito
+            .verify(userApi, Mockito.times(1))
+            .messagesFor(BOB);
     }
 
     @Test public void
@@ -95,5 +99,37 @@ public class UserHandlerShould {
         Mockito
             .verify(userApi, Mockito.times(1))
             .followUser(BOB, CHARLIE);
+    }
+
+    @Test public void
+    allow_users_to_read_users_walls() {
+        long now = System.currentTimeMillis();
+
+        BDDMockito
+                .given(clock.currentTime())
+                .willReturn(now);
+
+        BDDMockito
+                .given(userApi.wallFor(BOB))
+                .willReturn(Arrays.asList(BOB_MESSAGE));
+
+        BDDMockito
+                .given(messageFormatter.formatForWall(BOB_MESSAGE, now))
+                .willReturn(BOB_MESSAGE_TEXT);
+
+        webTestClient
+            .get()
+                .uri("/api/" + BOB + "/wall")
+            .exchange()
+                .expectStatus()
+                    .isEqualTo(HttpStatus.OK);
+
+        Mockito
+            .verify(messageFormatter, Mockito.times(1))
+            .formatForWall(BOB_MESSAGE, now);
+
+        Mockito
+            .verify(userApi, Mockito.times(1))
+            .wallFor(BOB);
     }
 }

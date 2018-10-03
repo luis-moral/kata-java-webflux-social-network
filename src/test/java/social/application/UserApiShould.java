@@ -20,7 +20,7 @@ public class UserApiShould {
     private static final String BOB_MESSAGE_TEXT = "Hello World!";
     private static final String CHARLIE = "Charlie";
 
-    private static final UserMessage BOB_MESSAGE = new UserMessage(BOB_MESSAGE_TEXT, MESSAGE_TIME);
+    private static final UserMessage BOB_MESSAGE = new UserMessage(BOB, BOB_MESSAGE_TEXT, MESSAGE_TIME);
 
     @Mock
     UserRepository userRepository;
@@ -56,7 +56,7 @@ public class UserApiShould {
 
     @Test public void
     allow_users_to_read_other_users_messages_timeline() {
-        userApi.getMessagesFor(BOB);
+        userApi.messagesFor(BOB);
 
         Mockito
             .verify(messageRepository, Mockito.times(1))

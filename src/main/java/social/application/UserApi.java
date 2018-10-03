@@ -20,14 +20,18 @@ public class UserApi {
     }
 
     public void postMessageFor(String user, String text) {
-        messageRepository.saveMessageFor(user, new UserMessage(text, clock.currentTime()));
+        messageRepository.saveMessageFor(user, new UserMessage(user, text, clock.currentTime()));
     }
 
-    public List<UserMessage> getMessagesFor(String user) {
+    public List<UserMessage> messagesFor(String user) {
         return messageRepository.findMessagesFor(user);
     }
 
     public void followUser(String user, String userToFollow) {
         userRepository.saveUserToFollow(user, userToFollow);
+    }
+
+    public List<UserMessage> wallFor(String user) {
+        throw new UnsupportedOperationException();
     }
 }
