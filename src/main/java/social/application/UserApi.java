@@ -32,6 +32,10 @@ public class UserApi {
     }
 
     public List<UserMessage> wallFor(String user) {
+        /*userRepository
+            .usersFollowedBy(user)
+            .stream()
+            .forEach();*/
         throw new UnsupportedOperationException();
     }
 }
