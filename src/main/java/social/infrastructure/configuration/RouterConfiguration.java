@@ -22,6 +22,9 @@ public class RouterConfiguration {
     @Value("${user.follow.path}")
     private String userFollowPath;
 
+    @Value("${user.wall.path}")
+    private String userWallPath;
+
     @Bean
     public RouterFunction<ServerResponse> routes(
         HealthHandler healthHandler,
@@ -44,6 +47,10 @@ public class RouterConfiguration {
                 .andRoute(
                     RequestPredicates.POST(userFollowPath),
                     userHandler::followUser
+                )
+                .andRoute(
+                    RequestPredicates.GET(userWallPath),
+                    userHandler::readUserWall
                 );
     }
 }

@@ -16,3 +16,5 @@ user:
     path: /api/{user}/timeline
   follow:
     path: /api/{user}/follow
+  wall:
+    path: /api/{user}/wall

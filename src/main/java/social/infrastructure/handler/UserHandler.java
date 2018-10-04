@@ -43,7 +43,7 @@ public class UserHandler {
         Mono<String> body =
             Mono
                 .fromCallable(() -> request.pathVariable(PATH_VARIABLE_USER))
-                .flatMapIterable(user -> userApi.getMessagesFor(user))
+                .flatMapIterable(user -> userApi.messagesFor(user))
                 .map(userMessage -> messageFormatter.formatForRead(userMessage, clock.currentTime()))
                 .collect(Collectors.joining("\n"));
 
@@ -63,5 +63,19 @@ public class UserHandler {
                         .status(HttpStatus.CREATED)
                         .build()
                 );
+    }
+
+    public Mono<ServerResponse> readUserWall(ServerRequest request) {
+        Mono<String> body =
+            Mono
+                .fromCallable(() -> request.pathVariable(PATH_VARIABLE_USER))
+                .flatMapIterable(user -> userApi.wallFor(user))
+                .map(userMessage -> messageFormatter.formatForWall(userMessage, clock.currentTime()))
+                .collect(Collectors.joining("\n"));
+
+        return
+            ServerResponse
+                .status(HttpStatus.OK)
+                .body(body, String.class);
     }
 }

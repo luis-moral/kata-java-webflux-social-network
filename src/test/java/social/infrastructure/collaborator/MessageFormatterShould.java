@@ -75,10 +75,10 @@ public class MessageFormatterShould {
     }
 
     private String formatForRead(long time) {
-        return messageFormatter.formatForRead(new UserMessage(TEXT, time), NOW);
+        return messageFormatter.formatForRead(new UserMessage(ALICE, TEXT, time), NOW);
     }
 
     private String formatForTimeline(long time) {
-        return messageFormatter.formatForWall(ALICE, new UserMessage(TEXT, time), NOW);
+        return messageFormatter.formatForWall(new UserMessage(ALICE, TEXT, time), NOW);
     }
 }

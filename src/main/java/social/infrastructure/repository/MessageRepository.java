@@ -16,12 +16,18 @@ public class MessageRepository {
     }
 
     public List<UserMessage> findMessagesFor(String user) {
-        return messageByUserMap.get(user);
+        return
+            messageByUserMap
+                .get(user);
     }
 
     public void saveMessageFor(String user, UserMessage message) {
         messageByUserMap
             .computeIfAbsent(user, key -> new LinkedList<>())
             .add(message);
+    }
+
+    public void reset() {
+        messageByUserMap.clear();
     }
 }

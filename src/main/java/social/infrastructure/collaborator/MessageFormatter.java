@@ -56,8 +56,8 @@ public class MessageFormatter {
         return message.getText() + " " + formatTimePassed(message.getTime(), now);
     }
 
-    public String formatForWall(String user, UserMessage message, long now) {
-        return user + USER_SEPARATOR + formatForRead(message, now);
+    public String formatForWall(UserMessage message, long now) {
+        return message.getUser() + USER_SEPARATOR + formatForRead(message, now);
     }
 
     private String formatTimePassed(long messageDate, long now) {
