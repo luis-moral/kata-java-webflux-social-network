@@ -26,13 +26,13 @@ public class MessageRepositoryShould {
 
     @Test
     public void
-    find_user_messages_in_chronological_order() {
+    find_user_messages() {
         MessageRepository messageRepository = new MessageRepository();
         messageRepository.saveMessageFor(BOB, BOB_MESSAGE);
         messageRepository.saveMessageFor(BOB, ANOTHER_BOB_MESSAGE);
 
         Assertions
             .assertThat(messageRepository.findMessagesFor(BOB))
-            .containsSequence(ANOTHER_BOB_MESSAGE, BOB_MESSAGE);
+            .contains(BOB_MESSAGE, ANOTHER_BOB_MESSAGE);
     }
 }

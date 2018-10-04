@@ -26,7 +26,12 @@ public class UserApi {
     }
 
     public List<UserMessage> messagesFor(String user) {
-        return messageRepository.findMessagesFor(user);
+        return
+            messageRepository
+                .findMessagesFor(user)
+                .stream()
+                .sorted((o1, o2) -> Long.compare(o2.getTime(), o1.getTime()))
+                .collect(Collectors.toList());
     }
 
     public void followUser(String user, String userToFollow) {

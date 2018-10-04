@@ -1,6 +1,5 @@
 package social.application;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +13,6 @@ import social.infrastructure.repository.MessageRepository;
 import social.infrastructure.repository.UserRepository;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
 @RunWith(MockitoJUnitRunner.class)

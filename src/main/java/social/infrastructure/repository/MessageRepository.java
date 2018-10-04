@@ -2,8 +2,10 @@ package social.infrastructure.repository;
 
 import social.domain.UserMessage;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class MessageRepository {
 
@@ -16,10 +18,7 @@ public class MessageRepository {
     public List<UserMessage> findMessagesFor(String user) {
         return
             messageByUserMap
-                .get(user)
-                .stream()
-                .sorted((o1, o2) -> Long.compare(o2.getTime(), o1.getTime()))
-                .collect(Collectors.toList());
+                .get(user);
     }
 
     public void saveMessageFor(String user, UserMessage message) {
