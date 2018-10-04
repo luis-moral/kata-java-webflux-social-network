@@ -114,6 +114,6 @@ public class UserApiShould {
 
         Mockito
             .verify(messageRepository, Mockito.times(1))
-            .findMessagesFor(CHARLIE);
+            .findMessagesFor(ALICE);
     }
 }

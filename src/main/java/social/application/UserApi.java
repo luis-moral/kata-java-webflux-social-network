@@ -6,6 +6,8 @@ import social.infrastructure.repository.MessageRepository;
 import social.infrastructure.repository.UserRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class UserApi {
 
@@ -32,10 +34,18 @@ public class UserApi {
     }
 
     public List<UserMessage> wallFor(String user) {
-        /*userRepository
-            .usersFollowedBy(user)
-            .stream()
-            .forEach();*/
-        throw new UnsupportedOperationException();
+        return
+            Stream
+                .concat(
+                    messageRepository
+                        .findMessagesFor(user)
+                        .stream(),
+                    userRepository
+                        .usersFollowedBy(user)
+                        .stream()
+                        .flatMap(someUser -> messagesFor(someUser).stream())
+                )
+                .sorted((o1, o2) -> Long.compare(o2.getTime(), o1.getTime()))
+                .collect(Collectors.toList());
     }
 }
