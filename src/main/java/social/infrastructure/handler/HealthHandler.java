@@ -17,6 +17,6 @@ public class HealthHandler {
         return
             ServerResponse
                 .status(HttpStatus.OK)
-                .body(Mono.fromCallable(() -> "OK para Marc"), String.class);
+                .body(Mono.fromCallable(() -> "OK para Marc1"), String.class);
     }
 }
