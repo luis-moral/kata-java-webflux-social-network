@@ -29,6 +29,6 @@ public class HealthFeature {
                 .expectStatus()
                     .isEqualTo(HttpStatus.OK)
                 .expectBody(String.class)
-                    .isEqualTo("OK");
+                    .isEqualTo("OK para Marc");
     }
 }
